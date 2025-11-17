@@ -1523,10 +1523,12 @@ const PortfolioDashboard = () => {
                 background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '24px',
-                padding: '32px',
+                borderRadius: isMobile ? '12px' : '24px',
+                padding: isMobile ? '12px' : '32px',
+                boxSizing: 'border-box',
                 boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)',
-                height: '352px'
+                height: isMobile ? 'auto' : '352px',
+                minHeight: isMobile ? '340px' : 'auto'
               }}>
                 <h3 style={{
                   fontSize: isMobile ? '16px' : '20px',
@@ -1534,12 +1536,12 @@ const PortfolioDashboard = () => {
                   background: 'linear-gradient(135deg, #8338EC 0%, #3A86FF 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  margin: '0 0 24px 0'
+                  margin: isMobile ? '0 0 12px 0' : '0 0 24px 0'
                 }}>
                   📊 Crescimento Patrimonial
                 </h3>
                 {areLineChartsVisible && (
-                <ResponsiveContainer width="100%" height={isMobile ? 180 : 200} key={`growth-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 240 : 200} key={`growth-${selectedPeriod}`}>
                   <AreaChart data={historicalData}>
                     <defs>
                       <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -1664,10 +1666,12 @@ const PortfolioDashboard = () => {
                 background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '24px',
-                padding: '32px',
+                borderRadius: isMobile ? '12px' : '24px',
+                padding: isMobile ? '12px' : '32px',
+                boxSizing: 'border-box',
                 boxShadow: '0 8px 32px rgba(6, 255, 165, 0.3), 0 0 0 1px rgba(6, 255, 165, 0.2)',
-                height: '352px'
+                height: isMobile ? 'auto' : '352px',
+                minHeight: isMobile ? '340px' : 'auto'
               }}>
                 <h3 style={{
                   fontSize: isMobile ? '16px' : '20px',
@@ -1675,12 +1679,12 @@ const PortfolioDashboard = () => {
                   background: 'linear-gradient(135deg, #06FFA5 0%, #3A86FF 50%, #8338EC 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  margin: '0 0 24px 0'
+                  margin: isMobile ? '0 0 12px 0' : '0 0 24px 0'
                 }}>
                   ⚡ Operações Intraday
                 </h3>
                 {areLineChartsVisible && (
-                <ResponsiveContainer width="100%" height={isMobile ? 180 : 200} key={`trading-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 240 : 200} key={`trading-${selectedPeriod}`}>
                   <AreaChart data={volatileTradingData}>
                     <defs>
                       <linearGradient id="colorTradingValue" x1="0" y1="0" x2="0" y2="1">
@@ -1920,10 +1924,12 @@ const PortfolioDashboard = () => {
                 background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '24px',
-                padding: '32px',
+                borderRadius: isMobile ? '12px' : '24px',
+                padding: isMobile ? '12px' : '32px',
+                boxSizing: 'border-box',
                 boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)',
-                height: '352px'
+                height: isMobile ? 'auto' : '352px',
+                minHeight: isMobile ? '340px' : 'auto'
               }}>
                 <h3 style={{
                   fontSize: isMobile ? '16px' : '20px',
@@ -1943,7 +1949,7 @@ const PortfolioDashboard = () => {
                   overflow: 'hidden',
                   position: 'relative'
                 }}>
-                <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`pie-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 250 : 240} key={`pie-${selectedPeriod}`}>
                   <PieChart>
                     <Pie
                       data={sectorData}
@@ -2035,7 +2041,7 @@ const PortfolioDashboard = () => {
                   background: 'linear-gradient(135deg, #3A86FF 0%, #06FFA5 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  margin: '0 0 24px 0'
+                  margin: isMobile ? '0 0 12px 0' : '0 0 24px 0'
                 }}>
                   🎪 Composição em Camadas
                 </h3>
@@ -2321,10 +2327,12 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '32px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '12px' : '32px',
+              boxSizing: 'border-box',
               boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)',
-              height: '352px'
+              height: isMobile ? 'auto' : '352px',
+              minHeight: isMobile ? '360px' : 'auto'
             }}>
               <h3 style={{
                 fontSize: isMobile ? '16px' : '20px',
@@ -2338,7 +2346,7 @@ const PortfolioDashboard = () => {
                 📉 Análise de Volatilidade
               </h3>
               {areLineChartsVisible && (
-              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240}>
+              <ResponsiveContainer width="100%" height={isMobile ? 250 : 240}>
                 <LineChart data={volatilityData}>
                   <defs>
                     <linearGradient id="volatilityGradient" x1="0" y1="0" x2="0" y2="1">
@@ -2464,10 +2472,12 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '32px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '12px' : '32px',
+              boxSizing: 'border-box',
               boxShadow: '0 8px 32px rgba(6, 255, 165, 0.3), 0 0 0 1px rgba(6, 255, 165, 0.2)',
-              height: '352px'
+              height: isMobile ? 'auto' : '352px',
+              minHeight: isMobile ? '360px' : 'auto'
             }}>
               <h3 style={{
                 fontSize: isMobile ? '16px' : '20px',
@@ -2481,7 +2491,7 @@ const PortfolioDashboard = () => {
                 📊 Performance Comparativa
               </h3>
               {areBarChartsVisible && (
-              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`performance-${selectedPeriod}`}>
+              <ResponsiveContainer width="100%" height={isMobile ? 250 : 240} key={`performance-${selectedPeriod}`}>
                 <BarChart data={performanceData}>
                   <defs>
                     <linearGradient id="barGrad1" x1="0" y1="1" x2="0" y2="0">
@@ -2589,10 +2599,12 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '32px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '12px' : '32px',
+              boxSizing: 'border-box',
               boxShadow: '0 8px 32px rgba(58, 134, 255, 0.3), 0 0 0 1px rgba(58, 134, 255, 0.2)',
-              height: '352px'
+              height: isMobile ? 'auto' : '352px',
+              minHeight: isMobile ? '360px' : 'auto'
             }}>
               <h3 style={{
                 fontSize: isMobile ? '16px' : '20px',
@@ -2606,7 +2618,7 @@ const PortfolioDashboard = () => {
                 📈 Volume por Ativo
               </h3>
               {areBarChartsVisible && (
-              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`volume-${selectedPeriod}`}>
+              <ResponsiveContainer width="100%" height={isMobile ? 250 : 240} key={`volume-${selectedPeriod}`}>
                 <BarChart data={portfolioAssets.slice(0, 6)}>
                   <defs>
                     <linearGradient id="volumeGrad" x1="0" y1="1" x2="0" y2="0">
