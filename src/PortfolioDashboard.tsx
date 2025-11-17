@@ -527,7 +527,10 @@ const PortfolioDashboard = () => {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       color: '#fff',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      width: '100%',
+      maxWidth: '100vw',
+      boxSizing: 'border-box'
     }}>
       {/* Animated background gradient overlay */}
       <div style={{
@@ -757,7 +760,16 @@ const PortfolioDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        zIndex: 1,
+        width: isMobile ? '100%' : 'auto',
+        maxWidth: isMobile ? '100vw' : 'none',
+        overflowX: 'hidden'
+      }}>
         {/* Top Header Bar */}
         <div style={{
           height: isMobile ? '64px' : '80px',
@@ -798,7 +810,8 @@ const PortfolioDashboard = () => {
           )}
 
           {/* Search Bar with Suggestions */}
-          <div style={{ position: 'relative', flex: 1, maxWidth: isMobile ? '100%' : '600px', zIndex: 10000 }}>
+          {!isMobile && (
+          <div style={{ position: 'relative', flex: 1, maxWidth: '600px', zIndex: 10000 }}>
             <div style={{ position: 'relative' }}>
               <span style={{
                 position: 'absolute',
@@ -894,6 +907,7 @@ const PortfolioDashboard = () => {
               </div>
             )}
           </div>
+          )}
 
           {/* Period Selector */}
           {!isMobile && (
@@ -1244,7 +1258,14 @@ const PortfolioDashboard = () => {
         </div>
 
         {/* Dashboard Content */}
-        <div style={{ flex: 1, padding: isMobile ? '16px' : isTablet ? '24px' : '40px', overflowY: 'auto' }}>
+        <div style={{
+          flex: 1,
+          padding: isMobile ? '12px' : isTablet ? '24px' : '40px',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
           {/* Dashboard Module */}
           {activeModule === 'dashboard' && (
             <>
@@ -1290,11 +1311,12 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: isMobile ? '16px' : '24px',
-              padding: isMobile ? '20px' : '28px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '16px' : '28px',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)'
+              boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)',
+              boxSizing: 'border-box'
             }}>
               <div style={{
                 position: 'absolute',
@@ -1312,12 +1334,14 @@ const PortfolioDashboard = () => {
                 VALOR TOTAL
               </div>
               <div style={{
-                fontSize: isMobile ? '28px' : '36px',
+                fontSize: isMobile ? '24px' : '36px',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #8338EC 0%, #3A86FF 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                marginBottom: '8px'
+                marginBottom: '8px',
+                lineHeight: '1.2',
+                wordBreak: 'break-word'
               }}>
                 {formatCurrency(animatedTotalValue)}
               </div>
@@ -1340,8 +1364,9 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '28px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '16px' : '28px',
+              boxSizing: 'border-box',
               position: 'relative',
               overflow: 'hidden',
               boxShadow: '0 8px 32px rgba(6, 255, 165, 0.3), 0 0 0 1px rgba(6, 255, 165, 0.2)'
@@ -1390,8 +1415,9 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '28px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '16px' : '28px',
+              boxSizing: 'border-box',
               position: 'relative',
               overflow: 'hidden',
               boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)'
@@ -1437,8 +1463,9 @@ const PortfolioDashboard = () => {
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '28px',
+              borderRadius: isMobile ? '12px' : '24px',
+              padding: isMobile ? '16px' : '28px',
+              boxSizing: 'border-box',
               position: 'relative',
               overflow: 'hidden',
               boxShadow: '0 8px 32px rgba(58, 134, 255, 0.3), 0 0 0 1px rgba(58, 134, 255, 0.2)'
@@ -1502,7 +1529,7 @@ const PortfolioDashboard = () => {
                 height: '352px'
               }}>
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: isMobile ? '16px' : '20px',
                   fontWeight: '900',
                   background: 'linear-gradient(135deg, #8338EC 0%, #3A86FF 100%)',
                   WebkitBackgroundClip: 'text',
@@ -1643,7 +1670,7 @@ const PortfolioDashboard = () => {
                 height: '352px'
               }}>
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: isMobile ? '16px' : '20px',
                   fontWeight: '900',
                   background: 'linear-gradient(135deg, #06FFA5 0%, #3A86FF 50%, #8338EC 100%)',
                   WebkitBackgroundClip: 'text',
@@ -1899,7 +1926,7 @@ const PortfolioDashboard = () => {
                 height: '352px'
               }}>
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: isMobile ? '16px' : '20px',
                   fontWeight: '900',
                   background: 'linear-gradient(135deg, #8338EC 0%, #3A86FF 100%)',
                   WebkitBackgroundClip: 'text',
@@ -2003,7 +2030,7 @@ const PortfolioDashboard = () => {
                 boxShadow: '0 8px 32px rgba(58, 134, 255, 0.3), 0 0 0 1px rgba(58, 134, 255, 0.2)'
               }}>
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: isMobile ? '16px' : '20px',
                   fontWeight: '900',
                   background: 'linear-gradient(135deg, #3A86FF 0%, #06FFA5 100%)',
                   WebkitBackgroundClip: 'text',
@@ -2300,7 +2327,7 @@ const PortfolioDashboard = () => {
               height: '352px'
             }}>
               <h3 style={{
-                fontSize: '20px',
+                fontSize: isMobile ? '16px' : '20px',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #8338EC 0%, #6D28D9 50%, #3A86FF 100%)',
                 WebkitBackgroundClip: 'text',
@@ -2443,7 +2470,7 @@ const PortfolioDashboard = () => {
               height: '352px'
             }}>
               <h3 style={{
-                fontSize: '20px',
+                fontSize: isMobile ? '16px' : '20px',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #06FFA5 0%, #3A86FF 100%)',
                 WebkitBackgroundClip: 'text',
@@ -2568,7 +2595,7 @@ const PortfolioDashboard = () => {
               height: '352px'
             }}>
               <h3 style={{
-                fontSize: '20px',
+                fontSize: isMobile ? '16px' : '20px',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #3A86FF 0%, #8338EC 50%, #6D28D9 100%)',
                 WebkitBackgroundClip: 'text',
