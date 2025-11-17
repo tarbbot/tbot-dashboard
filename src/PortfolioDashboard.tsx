@@ -26,6 +26,22 @@ const PortfolioDashboard = () => {
   const [animatedAssetCount, setAnimatedAssetCount] = useState(0);
   const [animatedDayChange, setAnimatedDayChange] = useState(0);
 
+  // Responsive states
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -554,19 +570,41 @@ const PortfolioDashboard = () => {
         ))}
       </div>
 
+      {/* Mobile Menu Overlay */}
+      {showMobileSidebar && isMobile && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.7)',
+            zIndex: 999,
+            backdropFilter: 'blur(4px)'
+          }}
+          onClick={() => setShowMobileSidebar(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <div style={{
-        width: '240px',
+        width: isMobile ? '280px' : '240px',
         background: 'linear-gradient(180deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 50%, rgba(15, 5, 24, 0.95) 100%)',
         backdropFilter: 'blur(30px)',
         borderRight: '1px solid rgba(131, 56, 236, 0.15)',
-        display: 'flex',
+        display: isMobile && !showMobileSidebar ? 'none' : 'flex',
         flexDirection: 'column',
-        padding: '32px 24px',
+        padding: isMobile ? '24px 16px' : '32px 24px',
         boxShadow: '4px 0 60px rgba(131, 56, 236, 0.2), inset -1px 0 0 rgba(255, 255, 255, 0.03)',
-        zIndex: 100,
-        position: 'relative',
-        gap: '32px'
+        zIndex: 1000,
+        position: isMobile ? 'fixed' : 'relative',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        gap: isMobile ? '24px' : '32px',
+        transition: 'transform 0.3s ease',
+        transform: isMobile && showMobileSidebar ? 'translateX(0)' : isMobile ? 'translateX(-100%)' : 'translateX(0)'
       }}>
         {/* Logo Section */}
         <div style={{
@@ -722,20 +760,45 @@ const PortfolioDashboard = () => {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
         {/* Top Header Bar */}
         <div style={{
-          height: '80px',
+          height: isMobile ? '64px' : '80px',
           background: 'linear-gradient(180deg, rgba(10, 10, 31, 0.9) 0%, rgba(26, 10, 46, 0.9) 100%)',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(131, 56, 236, 0.2)',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 40px',
-          gap: '32px',
+          padding: isMobile ? '0 16px' : '0 40px',
+          gap: isMobile ? '12px' : '32px',
           boxShadow: '0 4px 40px rgba(131, 56, 236, 0.2)',
           position: 'relative',
           zIndex: 9999
         }}>
+          {/* Hamburger Menu Button (Mobile Only) */}
+          {isMobile && (
+            <button
+              onClick={() => setShowMobileSidebar(!showMobileSidebar)}
+              style={{
+                background: 'rgba(131, 56, 236, 0.2)',
+                border: '1px solid rgba(131, 56, 236, 0.3)',
+                borderRadius: '12px',
+                width: '44px',
+                height: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+          )}
+
           {/* Search Bar with Suggestions */}
-          <div style={{ position: 'relative', flex: 1, maxWidth: '600px', zIndex: 10000 }}>
+          <div style={{ position: 'relative', flex: 1, maxWidth: isMobile ? '100%' : '600px', zIndex: 10000 }}>
             <div style={{ position: 'relative' }}>
               <span style={{
                 position: 'absolute',
@@ -833,13 +896,14 @@ const PortfolioDashboard = () => {
           </div>
 
           {/* Period Selector */}
+          {!isMobile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {['7D', '15D', '30D', '90D', '180D', '1Y'].map((period) => (
               <button
                 key={period}
                 onClick={() => setSelectedPeriod(period)}
                 style={{
-                  padding: '10px 18px',
+                  padding: isTablet ? '8px 14px' : '10px 18px',
                   background: selectedPeriod === period
                     ? 'linear-gradient(135deg, rgba(131, 56, 236, 0.3) 0%, rgba(58, 134, 255, 0.3) 100%)'
                     : 'rgba(255, 255, 255, 0.05)',
@@ -848,7 +912,7 @@ const PortfolioDashboard = () => {
                     : '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '12px',
                   color: selectedPeriod === period ? '#8338EC' : 'rgba(255, 255, 255, 0.7)',
-                  fontSize: '13px',
+                  fontSize: isTablet ? '12px' : '13px',
                   fontWeight: '700',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -873,6 +937,7 @@ const PortfolioDashboard = () => {
               </button>
             ))}
           </div>
+          )}
 
           {/* Spacer */}
           <div style={{ flex: 1 }} />
@@ -1179,20 +1244,54 @@ const PortfolioDashboard = () => {
         </div>
 
         {/* Dashboard Content */}
-        <div style={{ flex: 1, padding: '40px', overflowY: 'auto' }}>
+        <div style={{ flex: 1, padding: isMobile ? '16px' : isTablet ? '24px' : '40px', overflowY: 'auto' }}>
           {/* Dashboard Module */}
           {activeModule === 'dashboard' && (
             <>
+          {/* Mobile Period Selector */}
+          {isMobile && (
+            <div style={{ marginBottom: '20px' }}>
+              <select
+                value={selectedPeriod}
+                onChange={(e) => setSelectedPeriod(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  background: 'rgba(131, 56, 236, 0.2)',
+                  border: '1px solid rgba(131, 56, 236, 0.5)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  outline: 'none'
+                }}
+              >
+                <option value="7D" style={{ background: '#1a0a2e' }}>7 Dias</option>
+                <option value="15D" style={{ background: '#1a0a2e' }}>15 Dias</option>
+                <option value="30D" style={{ background: '#1a0a2e' }}>30 Dias</option>
+                <option value="90D" style={{ background: '#1a0a2e' }}>90 Dias</option>
+                <option value="180D" style={{ background: '#1a0a2e' }}>180 Dias</option>
+                <option value="1Y" style={{ background: '#1a0a2e' }}>1 Ano</option>
+              </select>
+            </div>
+          )}
+
           {/* Top Stats Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '32px' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gap: isMobile ? '16px' : '24px',
+            marginBottom: isMobile ? '20px' : '32px'
+          }}>
             {/* Card 1: Total Value */}
             <div style={{
               display: isComponentVisible('valor-total') ? 'block' : 'none',
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '28px',
+              borderRadius: isMobile ? '16px' : '24px',
+              padding: isMobile ? '20px' : '28px',
               position: 'relative',
               overflow: 'hidden',
               boxShadow: '0 8px 32px rgba(131, 56, 236, 0.3), 0 0 0 1px rgba(131, 56, 236, 0.2)'
@@ -1213,7 +1312,7 @@ const PortfolioDashboard = () => {
                 VALOR TOTAL
               </div>
               <div style={{
-                fontSize: '36px',
+                fontSize: isMobile ? '28px' : '36px',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #8338EC 0%, #3A86FF 100%)',
                 WebkitBackgroundClip: 'text',
@@ -1383,7 +1482,12 @@ const PortfolioDashboard = () => {
           </div>
 
           {/* Middle Charts Row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '32px' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile || isTablet ? '1fr' : '2fr 1fr',
+            gap: isMobile ? '16px' : '24px',
+            marginBottom: isMobile ? '20px' : '32px'
+          }}>
             {/* Left Column - Growth Charts */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* Growth Chart */}
@@ -1408,7 +1512,7 @@ const PortfolioDashboard = () => {
                   📊 Crescimento Patrimonial
                 </h3>
                 {areLineChartsVisible && (
-                <ResponsiveContainer width="100%" height={200} key={`growth-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 180 : 200} key={`growth-${selectedPeriod}`}>
                   <AreaChart data={historicalData}>
                     <defs>
                       <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -1549,7 +1653,7 @@ const PortfolioDashboard = () => {
                   ⚡ Operações Intraday
                 </h3>
                 {areLineChartsVisible && (
-                <ResponsiveContainer width="100%" height={200} key={`trading-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 180 : 200} key={`trading-${selectedPeriod}`}>
                   <AreaChart data={volatileTradingData}>
                     <defs>
                       <linearGradient id="colorTradingValue" x1="0" y1="0" x2="0" y2="1">
@@ -1671,7 +1775,12 @@ const PortfolioDashboard = () => {
               </div>
 
               {/* New Row - 3 Cards Below Intraday */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '16px' }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                gap: isMobile ? '12px' : '16px',
+                marginTop: isMobile ? '12px' : '16px'
+              }}>
                 {/* Card 1: Daily Volume */}
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
@@ -1807,7 +1916,7 @@ const PortfolioDashboard = () => {
                   overflow: 'hidden',
                   position: 'relative'
                 }}>
-                <ResponsiveContainer width="100%" height={240} key={`pie-${selectedPeriod}`}>
+                <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`pie-${selectedPeriod}`}>
                   <PieChart>
                     <Pie
                       data={sectorData}
@@ -2175,7 +2284,11 @@ const PortfolioDashboard = () => {
           </div>
 
           {/* Bottom Charts Row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+            gap: isMobile ? '16px' : '24px'
+          }}>
             {/* Volatility Chart - NEW */}
             <div style={{
               background: 'linear-gradient(135deg, rgba(10, 10, 31, 0.95) 0%, rgba(26, 10, 46, 0.95) 100%)',
@@ -2198,7 +2311,7 @@ const PortfolioDashboard = () => {
                 📉 Análise de Volatilidade
               </h3>
               {areLineChartsVisible && (
-              <ResponsiveContainer width="100%" height={240}>
+              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240}>
                 <LineChart data={volatilityData}>
                   <defs>
                     <linearGradient id="volatilityGradient" x1="0" y1="0" x2="0" y2="1">
@@ -2341,7 +2454,7 @@ const PortfolioDashboard = () => {
                 📊 Performance Comparativa
               </h3>
               {areBarChartsVisible && (
-              <ResponsiveContainer width="100%" height={240} key={`performance-${selectedPeriod}`}>
+              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`performance-${selectedPeriod}`}>
                 <BarChart data={performanceData}>
                   <defs>
                     <linearGradient id="barGrad1" x1="0" y1="1" x2="0" y2="0">
@@ -2466,7 +2579,7 @@ const PortfolioDashboard = () => {
                 📈 Volume por Ativo
               </h3>
               {areBarChartsVisible && (
-              <ResponsiveContainer width="100%" height={240} key={`volume-${selectedPeriod}`}>
+              <ResponsiveContainer width="100%" height={isMobile ? 200 : 240} key={`volume-${selectedPeriod}`}>
                 <BarChart data={portfolioAssets.slice(0, 6)}>
                   <defs>
                     <linearGradient id="volumeGrad" x1="0" y1="1" x2="0" y2="0">
