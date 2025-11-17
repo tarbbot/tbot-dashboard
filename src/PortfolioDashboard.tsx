@@ -9,7 +9,6 @@ const PortfolioDashboard = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [hoveredCircle, setHoveredCircle] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeSectorIndex, setActiveSectorIndex] = useState<number | undefined>(undefined);
@@ -26,12 +25,6 @@ const PortfolioDashboard = () => {
   const [animatedProfit, setAnimatedProfit] = useState(0);
   const [animatedAssetCount, setAnimatedAssetCount] = useState(0);
   const [animatedDayChange, setAnimatedDayChange] = useState(0);
-  const [volatilityMousePos, setVolatilityMousePos] = useState<{ x: number; y: number } | null>(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Close user menu when clicking outside
   useEffect(() => {
