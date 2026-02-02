@@ -4,6 +4,23 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 
+// Floating Particles Component
+const FloatingParticles: React.FC = () => {
+  const particles = Array.from({ length: 50 }, (_, i) => (
+    <div
+      key={i}
+      className="particle"
+      style={{
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 20}s`,
+        animationDuration: `${15 + Math.random() * 10}s`
+      }}
+    />
+  ));
+
+  return <div className="particles-bg">{particles}</div>;
+};
+
 const PortfolioDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -17,8 +34,13 @@ const PortfolioDashboard = () => {
   const [areLineChartsVisible, setAreLineChartsVisible] = useState(true);
   const [areBarChartsVisible, setAreBarChartsVisible] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('idToken');
+    setIsLoggedIn(!!token);
+  }, []);
 
   // Animated counter states
   const [animatedTotalValue, setAnimatedTotalValue] = useState(0);
@@ -523,7 +545,7 @@ const PortfolioDashboard = () => {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at top, #1a0a2e 0%, #0f0518 50%, #000000 100%)',
+      background: 'radial-gradient(ellipse at top, #1e1b4b 0%, #0f0f23 50%, #000000 100%)',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       color: '#fff',
       position: 'relative',
@@ -532,6 +554,12 @@ const PortfolioDashboard = () => {
       maxWidth: '100vw',
       boxSizing: 'border-box'
     }}>
+      {/* Floating Particles */}
+      <FloatingParticles />
+
+      {/* Cyberpunk Grid */}
+      <div className="cyber-grid"></div>
+
       {/* Animated background gradient overlay */}
       <div style={{
         position: 'absolute',
@@ -539,39 +567,10 @@ const PortfolioDashboard = () => {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'radial-gradient(circle at 20% 50%, rgba(131, 56, 236, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(58, 134, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 40% 20%, rgba(6, 255, 165, 0.1) 0%, transparent 40%)',
+        background: 'radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%), radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%)',
         pointerEvents: 'none',
-        animation: 'float 20s ease-in-out infinite'
+        zIndex: 2
       }}></div>
-
-      {/* Floating particles */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        pointerEvents: 'none',
-        overflow: 'hidden'
-      }}>
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: Math.random() * 4 + 2 + 'px',
-              height: Math.random() * 4 + 2 + 'px',
-              borderRadius: '50%',
-              background: `radial-gradient(circle, ${VIVID_COLORS[i % VIVID_COLORS.length]}80, transparent)`,
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 100 + '%',
-              animation: `floatParticle ${Math.random() * 10 + 15}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 5}s`,
-              opacity: Math.random() * 0.5 + 0.3
-            }}
-          />
-        ))}
-      </div>
 
       {/* Mobile Menu Overlay */}
       {showMobileSidebar && isMobile && (
