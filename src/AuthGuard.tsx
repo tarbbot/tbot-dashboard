@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-// TEMPORARY: bypass auth in dev only. Set to false (or delete this block) to restore auth.
-const BYPASS_AUTH = process.env.NODE_ENV === 'development';
+// TEMPORARY: bypass auth in dev or when REACT_APP_BYPASS_AUTH=true. Remove the env var (and rebuild) to restore auth.
+const BYPASS_AUTH =
+  process.env.NODE_ENV === 'development' || process.env.REACT_APP_BYPASS_AUTH === 'true';
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL || 'http://localhost:3002/login';
 
