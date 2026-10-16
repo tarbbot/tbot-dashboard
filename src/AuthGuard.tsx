@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 // TEMPORARY: bypass auth in dev only. Set to false (or delete this block) to restore auth.
 const BYPASS_AUTH = process.env.NODE_ENV === 'development';
 
+const LOGIN_URL = process.env.REACT_APP_LOGIN_URL || 'http://localhost:3002/login';
+
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,7 +37,7 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       const token = localStorage.getItem('idToken');
 
       if (!token) {
-        window.location.href = 'http://localhost:3002/login';
+        window.location.href = LOGIN_URL;
         return;
       }
 
@@ -45,13 +47,13 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         if (Date.now() >= expirationTime) {
           localStorage.clear();
-          window.location.href = 'http://localhost:3002/login';
+          window.location.href = LOGIN_URL;
           return;
         }
 
         setIsAuthenticated(true);
       } catch (error) {
-        window.location.href = 'http://localhost:3002/login';
+        window.location.href = LOGIN_URL;
         return;
       }
 

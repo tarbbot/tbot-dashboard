@@ -6,6 +6,7 @@ import Sidebar, { ModuleId, MODULES } from './components/Sidebar';
 import Topbar from './components/Topbar';
 import { buildPortfolio, PERIOD_LABEL, Period } from './data/portfolio';
 import { Scramble } from './lib/fx';
+import { attachLens } from './lib/lens';
 import './styles/theme.css';
 import './styles/dashboard.css';
 
@@ -22,6 +23,9 @@ const PortfolioDashboard: React.FC = () => {
   useEffect(() => {
     tint.c = current.tint;
   }, [current]);
+
+  // Panel light follows the cursor with inertia (see lib/lens.ts).
+  useEffect(() => attachLens(), []);
 
   // Lock page scroll behind the mobile drawer.
   useEffect(() => {

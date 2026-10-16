@@ -47,19 +47,23 @@
 }
 
 /* ---------- panel: chamfered edge, 1px ring is the panel background showing around a dark fill ---------- */
-.tone-cyan { --tc: 34, 230, 255; }
-.tone-magenta { --tc: 255, 60, 207; }
-.tone-violet { --tc: 139, 92, 246; }
-.tone-lime { --tc: 182, 255, 59; }
+.zn-panel.tone-cyan { --tc: 34, 230, 255; }
+.zn-panel.tone-magenta { --tc: 255, 60, 207; }
+.zn-panel.tone-violet { --tc: 139, 92, 246; }
+.zn-panel.tone-lime { --tc: 182, 255, 59; }
 
+@property --hv { syntax: '<number>'; inherits: false; initial-value: 0; }
 .zn-panel {
   --tc: 34, 230, 255;
   --edge: linear-gradient(135deg, rgba(var(--tc), 0.8), rgba(139, 92, 246, 0.28) 45%, rgba(255, 60, 207, 0.55));
+  --lens: radial-gradient(260px circle at var(--mx, 50%) var(--my, -80%), rgba(var(--tc), calc(var(--hv) * 0.95)), rgba(var(--tc), calc(var(--hv) * 0.25)) 38%, transparent 72%);
   position: relative;
   isolation: isolate;
   clip-path: var(--chamfer);
-  background: var(--edge);
+  background: var(--lens), var(--edge);
+  transition: --hv 0.45s ease;
 }
+.zn-panel:hover { --hv: 1; }
 .zn-panel::before {
   content: '';
   position: absolute;
@@ -75,11 +79,18 @@
   z-index: -1;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, -60%), rgba(var(--tc), 0.16), transparent 62%);
+  transition: opacity 0.4s;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, -80%), rgba(var(--tc), 0.1), transparent 65%);
 }
-.zn-panel:hover::after {
-  opacity: 1;
+.zn-panel:hover::after { opacity: 1; }
+/* the spacetime mesh drawn by lib/lens.ts: between the panel fill and its content */
+.lens-canvas {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  pointer-events: none;
 }
 .is-hidden {
   display: none !important;
@@ -106,6 +117,7 @@
   --bc2: 255, 60, 207;
   background:
     conic-gradient(from var(--a), transparent 0deg 200deg, rgba(var(--bc2), calc(var(--o) * 0.6)) 255deg, rgba(var(--bc1), calc(var(--o) * 0.95)) 330deg, rgba(255, 255, 255, var(--o)) 352deg, rgba(255, 255, 255, var(--o)) 358deg, transparent 360deg),
+    var(--lens),
     var(--edge);
   animation: beam 8s linear calc(var(--i, 0) * 0.5s + 1s) infinite;
 }
@@ -125,8 +137,7 @@
 .rv {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.8s var(--ez), transform 0.8s var(--ez);
-  transition-delay: calc(var(--i, 0) * 70ms);
+  transition: opacity 0.8s var(--ez) calc(var(--i, 0) * 70ms), transform 0.8s var(--ez) calc(var(--i, 0) * 70ms), --hv 0.45s ease 0s;
 }
 .rv.in {
   opacity: 1;
