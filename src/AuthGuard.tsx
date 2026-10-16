@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
+// TEMPORARY: bypass auth in dev only. Set to false (or delete this block) to restore auth.
+const BYPASS_AUTH = process.env.NODE_ENV === 'development';
+
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const checkAuth = () => {
+      if (BYPASS_AUTH) {
+        setIsAuthenticated(true);
+        setIsChecking(false);
+        return;
+      }
+
       // First, check if tokens are in URL params (from landing page)
       const urlParams = new URLSearchParams(window.location.search);
       const urlIdToken = urlParams.get('idToken');
